@@ -1,0 +1,14 @@
+server:
+  port: 8000
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:20118/dsj?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+  jackson:
+    date-format: "yyyy-mm-dd HH:mm:ss"
+mybatis:
+  mapper-locations: classpath:org/nina/dsj/mapper/xml/*.xml
+
