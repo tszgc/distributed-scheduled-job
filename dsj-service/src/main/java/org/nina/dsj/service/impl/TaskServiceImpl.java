@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.nina.dsj.common.dto.TaskDto;
+import org.nina.dsj.common.enums.TaskStatusEnum;
 import org.nina.dsj.common.enums.TaskTypeEnum;
 import org.nina.dsj.common.exception.TaskException;
 import org.nina.dsj.common.vo.TaskQueryPageVo;
@@ -38,6 +39,18 @@ public class TaskServiceImpl implements ITaskService {
             throw new NullPointerException("dsjTask为空！");
         }
         return taskMapper.insertSelective(dsjTask);
+    }
+
+    @Override
+    public int deleteTask(String code) {
+        return updateStatus(code, TaskStatusEnum.SC);
+    }
+
+    @Override
+    public void cancelTask(String code) {
+        TaskDto taskDto = new TaskDto();
+        taskDto.setCode(code);
+        taskExecHttp.delayTaskCancel(taskDto);
     }
 
     @Override
@@ -85,4 +98,40 @@ public class TaskServiceImpl implements ITaskService {
             }
         }
     }
+
+    @Override
+    public int statusZXZ(String code) {
+        return updateStatus(code, TaskStatusEnum.ZXZ);
+    }
+
+    @Override
+    public int statusYZX(String code) {
+        return updateStatus(code, TaskStatusEnum.YZX);
+    }
+
+    @Override
+    public int statusSC(String code) {
+        return updateStatus(code, TaskStatusEnum.SC);
+    }
+
+    @Override
+    public int statusZXSB(String code) {
+        return updateStatus(code, TaskStatusEnum.ZXSB);
+    }
+
+    @Override
+    public int statusYQX(String code) {
+        return updateStatus(code, TaskStatusEnum.YQX);
+    }
+
+    @Override
+    public int updateStatus(String code, TaskStatusEnum taskStatusEnum) {
+        DsjTask dsjTask = taskMapper.selectByCode(code);
+        if (!Objects.isNull(dsjTask)) {
+            dsjTask.setStatus(taskStatusEnum.getStatus());
+            return taskMapper.updateByPrimaryKeySelective(dsjTask);
+        }
+        return 0;
+    }
+
 }

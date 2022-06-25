@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `dsj`.`dsj_task` (
                                                 `url` VARCHAR(100) NOT NULL COMMENT '任务地址',
                                                 `param` VARCHAR(100) NULL COMMENT '参数',
                                                 `delay` INT NULL COMMENT '延时执行时间（ms）',
-                                                `status` SMALLINT(1) NULL DEFAULT 1 COMMENT '状态：1-待执行；2-执行中；3-已执行；4-删除；5-执行失败',
+                                                `status` SMALLINT(1) NULL DEFAULT 1 COMMENT '状态：1-待执行；2-执行中；3-已执行；4-删除；5-执行失败；6-已取消',
                                                 `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                                                 PRIMARY KEY (`id`),
                                                 UNIQUE INDEX `uk_code` (`code` ASC))

@@ -16,8 +16,8 @@ public enum TaskTypeEnum {
     CRON(2, "定期执行"),
     DELAY(3, "延时执行");
 
-    private int type;
-    private String text;
+    private final int type;
+    private final String text;
 
     public static TaskTypeEnum getType(int type) {
         for (TaskTypeEnum taskType : values()) {

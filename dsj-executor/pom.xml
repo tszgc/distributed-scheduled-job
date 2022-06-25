@@ -25,6 +25,11 @@
             <artifactId>dsj-common</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.nina</groupId>
+            <artifactId>dsj-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 

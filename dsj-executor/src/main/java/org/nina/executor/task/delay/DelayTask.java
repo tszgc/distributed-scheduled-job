@@ -1,9 +1,11 @@
 package org.nina.executor.task.delay;
 
 import lombok.Getter;
+import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.nina.dsj.common.dto.TaskDto;
 import org.nina.dsj.common.util.HttpUtil;
+import org.nina.dsj.service.ITaskService;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -15,12 +17,15 @@ import java.util.concurrent.TimeUnit;
  * 作者：zgc
  * 时间：2022/6/25 08:50
  */
+@ToString
 @Getter
 public class DelayTask implements Delayed, Runnable {
 
     private TaskDto taskDto;
 
-    public DelayTask(TaskDto taskDto) {
+    private ITaskService taskService;
+
+    public DelayTask(TaskDto taskDto, ITaskService taskService) {
         this.taskDto = taskDto;
     }
 
@@ -46,8 +51,10 @@ public class DelayTask implements Delayed, Runnable {
         try {
             System.out.println("code=" + taskDto.getCode() + "的延时任务开始执行！");
             HttpUtil.doPostJSON(taskDto.getUrl(), taskDto.getParam());
+            taskService.statusYZX(taskDto.getCode());
         } catch (Exception e) {
             System.out.println("执行任务发生异常！");
+            taskService.statusZXSB(taskDto.getCode());
         }
     }
 

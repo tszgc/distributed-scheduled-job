@@ -2,11 +2,13 @@ package org.nina.executor.task.delay;
 
 import org.apache.commons.lang3.StringUtils;
 import org.nina.dsj.common.dto.TaskDto;
+import org.nina.dsj.service.ITaskService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.concurrent.*;
 
 /**
@@ -17,6 +19,9 @@ import java.util.concurrent.*;
 @Component
 public class DelayTaskExecutor implements ApplicationRunner {
 
+    @Resource
+    private ITaskService taskService;
+
     // 延时队列
     private final DelayQueue<DelayTask> delayQueue = new DelayQueue<>();
 
@@ -25,18 +30,24 @@ public class DelayTaskExecutor implements ApplicationRunner {
     private volatile boolean run = true;
 
     // 任务执行线程池
-    ThreadPoolExecutor executorPool = new ThreadPoolExecutor(5, 5, 30, TimeUnit.SECONDS, new ArrayBlockingQueue<>(200), new CustomizableThreadFactory("delayTask"), new ThreadPoolExecutor.CallerRunsPolicy());
+    private final ThreadPoolExecutor executorPool = new ThreadPoolExecutor(2 * Runtime.getRuntime().availableProcessors(), 2 * Runtime.getRuntime().availableProcessors(), 30, TimeUnit.SECONDS, new ArrayBlockingQueue<>(200), new CustomizableThreadFactory("delayTask"), new ThreadPoolExecutor.CallerRunsPolicy());
 
     public void produce(TaskDto taskDto) {
-        produce(new DelayTask(taskDto));
+        produce(new DelayTask(taskDto, taskService));
     }
 
     public void produce(DelayTask delayTask) {
+        System.out.println("收到待执行的延时任务：" + delayTask.toString());
         delayQueue.put(delayTask);
+        taskService.statusZXZ(delayTask.getTaskDto().getCode());
     }
 
+    /**
+     * 开始消费延时队列中的任务执行，等任务延时后就会被自动执行
+     */
     public void start() {
         Executors.newSingleThreadExecutor().submit(()->{
+            System.out.println("延时任务执行消费者启动：开始执行任务！");
             while(run) {
                 try {
                     TimeUnit.MILLISECONDS.sleep(200);
@@ -51,7 +62,8 @@ public class DelayTaskExecutor implements ApplicationRunner {
     }
 
     public void cancel(TaskDto taskDto) {
-        cancel(new DelayTask(taskDto));
+        cancel(new DelayTask(taskDto, null));
+        taskService.statusYQX(taskDto.getCode());
     }
 
     public void cancel(DelayTask delayTask) {
@@ -65,6 +77,7 @@ public class DelayTaskExecutor implements ApplicationRunner {
     }
 
     public void stop() {
+        System.out.println("停止所有等待执行延时任务！");
         this.run = false;
         delayQueue.clear();
         runningTaskFutureMap.clear();

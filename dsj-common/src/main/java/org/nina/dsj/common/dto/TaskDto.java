@@ -3,6 +3,7 @@ package org.nina.dsj.common.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import java.util.Date;
  * 作者：zgc
  * 时间：2022/6/24 19:03
  */
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
