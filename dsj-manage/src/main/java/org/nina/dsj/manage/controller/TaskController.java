@@ -79,6 +79,7 @@ public class TaskController {
      * @param task
      * @return
      */
+    @PostMapping("calcel")
     public JSONResult<Void> cancel(@Validated(Exec.class) @RequestBody TaskParam task) {
         taskService.cancelTask(task.getCode());
         return JSONResult.success();

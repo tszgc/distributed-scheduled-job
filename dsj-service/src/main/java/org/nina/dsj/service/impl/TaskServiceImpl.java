@@ -95,6 +95,10 @@ public class TaskServiceImpl implements ITaskService {
             BeanUtils.copyProperties(dsjTask, taskDto);
             if (dsjTask.getType() == TaskTypeEnum.DELAY.getType()) {
                 taskExecHttp.delayTaskExec(taskDto);
+            } else if(dsjTask.getType() == TaskTypeEnum.REALTIME.getType()) {
+                // TODO 执行实时任务
+            } else if (dsjTask.getType() == TaskTypeEnum.CRON.getType()) {
+                // TODO 定时任务
             }
         }
     }
