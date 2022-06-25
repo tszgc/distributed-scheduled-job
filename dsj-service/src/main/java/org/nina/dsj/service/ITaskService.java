@@ -18,4 +18,6 @@ public interface ITaskService {
 
     TaskQueryPageVo queryPage(Integer pageNum, Integer pageSize);
 
+    void execTask(String code);
+
 }

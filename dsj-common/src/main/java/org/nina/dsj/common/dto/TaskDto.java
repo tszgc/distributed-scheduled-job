@@ -18,13 +18,13 @@ public class TaskDto {
     private String code;
     private String name;
     /**
-     * 任务类型：1-实时执行；2-cron执行
+     * 任务类型：1-实时执行；2-cron执行;
      */
     private Short type;
     private String cron;
     private String url;
     private String param;
-    private Integer delay;
+    private Long delay;
     /**
      * 状态：1-待执行；2-执行中；3-已执行；4-删除；5执行失败
      */

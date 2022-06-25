@@ -3,6 +3,8 @@ package org.nina.dsj.manage.controller;
 import org.nina.dsj.common.model.JSONResult;
 import org.nina.dsj.common.vo.TaskQueryPageParam;
 import org.nina.dsj.common.vo.TaskQueryPageVo;
+import org.nina.dsj.manage.param.Exec;
+import org.nina.dsj.manage.param.Save;
 import org.nina.dsj.manage.param.TaskParam;
 import org.nina.dsj.model.DsjTask;
 import org.nina.dsj.service.ITaskService;
@@ -28,7 +30,7 @@ public class TaskController {
     private ITaskService taskService;
 
     @PostMapping("save")
-    public JSONResult<Void> save(@Validated @RequestBody TaskParam task) {
+    public JSONResult<Void> save(@Validated(Save.class) @RequestBody TaskParam task) {
         DsjTask dsjTask = new DsjTask();
         BeanUtils.copyProperties(task, dsjTask);
         taskService.saveTask(dsjTask);
@@ -39,6 +41,13 @@ public class TaskController {
     public JSONResult<TaskQueryPageVo> queryPage(@RequestBody TaskQueryPageParam queryPageParam) {
         return JSONResult.success(taskService.queryPage(queryPageParam.getPageNum(), queryPageParam.getPageSize()));
     }
+
+    @PostMapping("exec")
+    public JSONResult<Void> exec(@Validated(Exec.class)@RequestBody TaskParam task) {
+        taskService.execTask(task.getCode());
+        return JSONResult.success(null);
+    }
+
 
 
 }

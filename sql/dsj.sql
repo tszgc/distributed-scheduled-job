@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `dsj`.`dsj_task` (
                                                 `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Id',
                                                 `code` VARCHAR(50) NOT NULL COMMENT '任务编码',
                                                 `name` VARCHAR(50) NOT NULL COMMENT '任务名称',
-                                                `type` SMALLINT(1) NOT NULL COMMENT '任务类型：1-实时执行；2-cron执行',
+                                                `type` SMALLINT(1) NOT NULL COMMENT '任务类型：1-实时执行；2-cron执行；3-延时执行',
                                                 `cron` VARCHAR(50) NULL COMMENT '定时任务表达式',
                                                 `url` VARCHAR(100) NOT NULL COMMENT '任务地址',
                                                 `param` VARCHAR(100) NULL COMMENT '参数',

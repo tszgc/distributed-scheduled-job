@@ -19,6 +19,14 @@ public class JSONResult<T> {
     private String msg;
     private T data;
 
+    public static <T> JSONResult<T> success() {
+        return success(null);
+    }
+
+    public static <T> JSONResult<T> success(String msg) {
+        return success(msg, null);
+    }
+
     public static <T> JSONResult<T> success(T data) {
         return success("", data);
     }

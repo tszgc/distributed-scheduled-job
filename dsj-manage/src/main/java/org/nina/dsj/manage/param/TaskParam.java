@@ -15,17 +15,17 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Data
 public class TaskParam {
-    @NotBlank(message = "code 不能为空")
+    @NotBlank(message = "code 不能为空", groups = {Exec.class, Save.class})
     private String code;
 
-    @NotBlank(message = "name 不能为空")
+    @NotBlank(message = "name 不能为空", groups = {Save.class})
     private String name;
 
     /**
      * 任务类型：1-实时执行；2-cron执行
      */
-    @NotNull(message = "type 不能为空")
-    @Range(min = 1, max = 2, message = "type只能为1或者2")
+    @NotNull(message = "type 不能为空", groups = {Save.class})
+    @Range(min = 1, max = 3, message = "type只能为1、2或者3")
     private Short type;
 
     private String cron;

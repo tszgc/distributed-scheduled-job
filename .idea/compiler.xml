@@ -9,6 +9,7 @@
         <module name="dsj-service" />
         <module name="dsj-common" />
         <module name="dsj-manage" />
+        <module name="dsj-executor" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8" />
@@ -16,6 +17,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="dsj-common" options="-parameters" />
+      <module name="dsj-executor" options="-parameters" />
       <module name="dsj-manage" options="-parameters" />
       <module name="dsj-service" options="-parameters" />
     </option>

@@ -11,4 +11,3 @@ spring:
     date-format: "yyyy-mm-dd HH:mm:ss"
 mybatis:
   mapper-locations: classpath:org/nina/dsj/mapper/xml/*.xml
-

@@ -4,7 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.nina.dsj.common.dto.TaskDto;
+import org.nina.dsj.common.enums.TaskTypeEnum;
+import org.nina.dsj.common.exception.TaskException;
 import org.nina.dsj.common.vo.TaskQueryPageVo;
+import org.nina.dsj.http.TaskExecHttp;
 import org.nina.dsj.mapper.DsjTaskMapper;
 import org.nina.dsj.model.DsjTask;
 import org.nina.dsj.service.ITaskService;
@@ -25,6 +28,9 @@ import java.util.Objects;
 public class TaskServiceImpl implements ITaskService {
     @Resource
     private DsjTaskMapper taskMapper;
+
+    @Resource
+    private TaskExecHttp taskExecHttp;
 
     @Override
     public int saveTask(DsjTask dsjTask) {
@@ -62,5 +68,21 @@ public class TaskServiceImpl implements ITaskService {
         }
         PageInfo<DsjTask> pageInfo = PageInfo.of(dsjTasks);
         return new TaskQueryPageVo().setPageNum(pageInfo.getPageNum()).setPageSize(pageInfo.getPageSize()).setTasks(taskDtos).setTotal(pageInfo.getTotal());
+    }
+
+    @Override
+    public void execTask(String code) {
+        DsjTask dsjTask = taskMapper.selectByCode(code);
+        if (Objects.isNull(dsjTask)) {
+            throw new TaskException("任务编码错误！");
+        }
+        // 这个是策略问题，根据需求定义，临时选择两个状态
+        if (dsjTask.getStatus() == 1 || dsjTask.getStatus() == 5) {
+            TaskDto taskDto = new TaskDto();
+            BeanUtils.copyProperties(dsjTask, taskDto);
+            if (dsjTask.getType() == TaskTypeEnum.DELAY.getType()) {
+                taskExecHttp.delayTaskExec(taskDto);
+            }
+        }
     }
 }
