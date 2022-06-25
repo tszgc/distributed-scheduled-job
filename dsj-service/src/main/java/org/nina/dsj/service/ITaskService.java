@@ -1,10 +1,7 @@
 package org.nina.dsj.service;
 
-import com.github.pagehelper.Page;
 import org.nina.dsj.common.vo.TaskQueryPageVo;
 import org.nina.dsj.model.DsjTask;
-
-import java.util.List;
 
 /**
  * 描述：任务服务接口

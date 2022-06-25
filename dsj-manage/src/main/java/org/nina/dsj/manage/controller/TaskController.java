@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * 作者：zgc
  * 时间：2022/6/24 15:59
  */
-@RequestMapping("task")
+@RequestMapping("task/manage")
 @RestController
 public class TaskController {
 

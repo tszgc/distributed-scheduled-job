@@ -24,6 +24,7 @@ public class TaskDto {
     private String cron;
     private String url;
     private String param;
+    private Integer delay;
     /**
      * 状态：1-待执行；2-执行中；3-已执行；4-删除；5执行失败
      */

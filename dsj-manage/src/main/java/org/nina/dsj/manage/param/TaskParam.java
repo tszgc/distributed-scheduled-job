@@ -33,4 +33,6 @@ public class TaskParam {
     private String url;
 
     private String param;
+
+    private Integer delay;
 }
